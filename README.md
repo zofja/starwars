@@ -5,7 +5,7 @@ Ponieważ chcemy symulować różne bitwy, należy przygotować rozwiązanie og�
 
 Stwórz następujące typy szablonowe.
 
-##Plik rebelfleet.h
+## rebelfleet.h
 
 Klasy `Explorer<typename U>`, `StarCruiser<typename U>` i `XWing<typename U>`
 reprezentujące statki Rebelii, gdzie U jest typem pól przechowujących
