@@ -5,14 +5,14 @@ Ponieważ chcemy symulować różne bitwy, należy przygotować rozwiązanie og�
 
 Stwórz następujące typy szablonowe.
 
-##Plik rebelfleet.h
+## rebelfleet.h
 
 Klasy `Explorer<typename U>`, `StarCruiser<typename U>` i `XWing<typename U>`
-reprezentujące statki Rebelii, gdzie U jest typem pól przechowujących
-wytrzymałość tarczy oraz prędkość, a w przypadku XWing oraz StarCruiser również
+reprezentujące statki Rebelii, gdzie `U` jest typem pól przechowujących
+wytrzymałość tarczy oraz prędkość, a w przypadku `XWing` oraz `StarCruiser` również
 siłę ataku statku.
 
-Klasa `Explorer` przyjmuje w konstruktorze parametry shield oraz speed typu `U`,
+Klasa `Explorer` przyjmuje w konstruktorze parametry `shield` oraz `speed` typu `U`,
 a `StarCruiser` oraz `XWing` dodatkowo parametr `attackPower` też typu `U`. Klasa `StarCruiser` może przyjmować speed w zakresie od `99999` do `299795` włącznie, a klasy `Explorer` oraz `XWing` w zakresie od `299796` do `2997960` włącznie. Poprawność wartości parametru speed należy sprawdzać za pomocą asercji.
 
 Klasy `Explorer`, `StarCruiser` i `XWing` udostępniają metody publiczne:
@@ -101,11 +101,11 @@ się bronić (ma parametr attackPower), to wtedy obrażenia zadawane są
 Statek zostaje zniszczony, jeśli wytrzymałość jego tarczy spadnie do zera.
 
 Wywołanie `tick()` na bitwie, podczas gdy wszystkie statki Imperium zostały
-zniszczone, powoduje wypisanie na standardowe wyjście napisu "REBELLION WON\n".
+zniszczone, powoduje wypisanie na standardowe wyjście napisu ``"REBELLION WON\n"``.
 Wywołanie `tick()` na bitwie, podczas gdy wszystkie statki Rebelii zostały
-zniszczone, powoduje wypisanie na standardowe wyjście napisu "IMPERIUM WON\n".
+zniszczone, powoduje wypisanie na standardowe wyjście napisu ``"IMPERIUM WON\n"``.
 Jeśli wszystkie statki zarówno Imperium jak i Rebelii są zniszczone, to zostaje
-wypisany napis "DRAW\n".
+wypisany napis ``"DRAW\n"``.
 
 # Wymagania formalne
 
