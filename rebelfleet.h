@@ -31,7 +31,7 @@ public:
 
     void takeDamage(U damage) { shield -= damage; }
 
-    template <typename = typename std::enable_if<(Type == RebelShip::STARCRUISER || Type == RebelShip::XWING)>::type >
+    template <typename = typename std::enable_if<(Type == RebelShip::STARCRUISER || Type == RebelShip::XWING)> >
     U getAttackPower() {
         return attackPower;
     }

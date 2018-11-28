@@ -16,7 +16,7 @@ jak bedziemy wstawiać prywatne detale implementacji nie robić tego
 w anonimowym namespace'ie, bo to nie ma sensu (undefined behaviour),
 po prostu static funkcje : - )
 
-attackPower jak dostanie statki różnego typu, można przyjąć, że się konwertują na siebie
+attack jak dostanie statki różnego typu, można przyjąć, że się konwertują na siebie
 
 
 template<class T>

@@ -96,7 +96,7 @@ dla każdego statku Imperium
 
 Kolejność atakowania (iterowania) jest zgodna z kolejnością, w jakiej statki
 zostały przekazane w konstruktorze. Jeśli zaatakowana jednostka rebeliancka może
-się bronić (ma parametr attackPower), to wtedy obrażenia zadawane są
+się bronić (ma parametr attack), to wtedy obrażenia zadawane są
 „jednocześnie” i oba statki odnoszą odpowiednie obrażenia zgodnie z siłami ataku.
 Statek zostaje zniszczony, jeśli wytrzymałość jego tarczy spadnie do zera.
 
