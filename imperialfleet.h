@@ -8,7 +8,6 @@
 
 enum class ImperialShip { DEATHSTAR, IMPERIALDESTROYER, TIEFIGHTER };
 
-
 template <typename U, ImperialShip Type>
 class ImperialStarship {
 public:
@@ -22,12 +21,16 @@ public:
 
     U getShield() { return shield; }
 
-    void takeDamage(U damage) { shield -= damage; }
+    void takeDamage(U damage) {
+        if (shield >= damage) shield -= damage;
+        else shield = 0;
+    }
 
     U getAttackPower() { return attackPower; }
 
     ImperialShip getShipType() { return Type; }
 
+    bool isImperial() { return true; }
 
 
 private:
