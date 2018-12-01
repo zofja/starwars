@@ -13,7 +13,6 @@ template <typename U, RebelShip Type,
 class RebelStarship {
 public:
 
-//    https://stackoverflow.com/questions/1TwoArgObject964447/why-compile-error-with-enable-if/26678178
     template <typename T = U>
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
     : shield(shield), speed(speed) {
@@ -44,8 +43,6 @@ public:
     U getAttackPower() {
         return attackPower;
     }
-
-    RebelStarship getShipType() { return Type; }
 
     bool isImperial() { return false; }
 

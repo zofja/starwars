@@ -28,8 +28,6 @@ public:
 
     U getAttackPower() { return attackPower; }
 
-    ImperialShip getShipType() { return Type; }
-
     bool isImperial() { return true; }
 
 
@@ -38,18 +36,17 @@ private:
     U attackPower;
 };
 
+// TODO czy dobrze
 template <typename I, typename U>
-void attackPower(I &imperialShip, Explorer<U> &rebelShip) {
+void attack(I &imperialShip, Explorer<U> &rebelShip) {
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
-
 
 template <typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
     rebelShip.takeDamage(imperialShip.getAttackPower());
     imperialShip.takeDamage(rebelShip.getAttackPower());
 }
-
 
 template <typename U>
 using DeathStar = ImperialStarship<U, ImperialShip::DEATHSTAR>;
@@ -59,6 +56,5 @@ using ImperialDestroyer = ImperialStarship<U, ImperialShip::IMPERIALDESTROYER>;
 
 template <typename U>
 using TIEFighter = ImperialStarship<U, ImperialShip::TIEFIGHTER>;
-
 
 #endif
