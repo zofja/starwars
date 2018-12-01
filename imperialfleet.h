@@ -6,16 +6,17 @@
 #include <tgmath.h>
 #include "rebelfleet.h"
 
-enum class ImperialShip { DEATHSTAR, IMPERIALDESTROYER, TIEFIGHTER };
+enum class ImperialShip {
+    DEATHSTAR, IMPERIALDESTROYER, TIEFIGHTER
+};
 
 template <typename U, ImperialShip Type>
 class ImperialStarship {
 public:
 
-    using typeValue = U; // po co to komu
+    using typeValue = U;
 
-    ImperialStarship(U shield, U attackPower)
-            : shield(shield), attackPower(attackPower) {
+    ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {
         std::cout << "2 arg ctor\n";
     }
 
@@ -32,6 +33,7 @@ public:
 
 
 private:
+
     U shield;
     U attackPower;
 };

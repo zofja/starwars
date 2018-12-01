@@ -1,4 +1,3 @@
-#include <vector>
 #include <tuple>
 #include <algorithm>
 #include "imperialfleet.h"
@@ -10,7 +9,9 @@
 template<typename T, T t0, T t1, typename... S>
 class SpaceBattle {
 
-//    TODO co zrobić static
+    static_assert(t0 >= 0, "Time cannot be negative");
+    static_assert(t0 <= t1, "Start must be before end");
+    static_assert(t1 >= 0, "Time cannot be negative");
 
 public:
 
@@ -40,12 +41,6 @@ public:
         time = (time + timeStep) % (t1 + 1);
     }
 
-    void print() {
-        for (int i = 0; i < N; i++) {
-            std::cout << powers[i] << "\n";
-        }
-    }
-
 private:
 
     T time = t0;
@@ -56,13 +51,14 @@ private:
 
     size_t imperialFleet = 0;
 
-    static const uint64_t N = (1UL << 10); // TODO umądrzyć
+//    TODO umądrzyć albo zostawić
+    static const uint64_t N = 20;
 
     static constexpr auto power(uint64_t n) {
         return n * n;
     }
 
-    static constexpr auto gen_power() {
+    static constexpr auto genPowers() {
 
         std::array<uint64_t, N> arr{};
 
@@ -73,7 +69,10 @@ private:
         return arr;
     }
 
-    static constexpr auto powers = gen_power();
+
+// TODO nwm co z tym warningiem o static storage duration
+    static constexpr auto powers = genPowers();
+
 
     template<size_t n = 0, typename ...S1>
     constexpr void countFleet(std::tuple<S1...> &t) {
@@ -81,35 +80,35 @@ private:
 
             if (std::get<n>(t).isImperial()) {
                 imperialFleet++;
-            }
-            else {
+            } else {
                 rebelFleet++;
             }
 
-            countFleet<n + 1, S1...>(t);
+            countFleet<n + 1>(t);
         }
     }
 
-    template<typename I, size_t n = 0, typename...S1>
+    template<size_t n = 0, typename I, typename...S1>
     constexpr void iterateRebel(I &imperialStarship, std::tuple<S1...> &t) {
         if constexpr(n < sizeof...(S1)) {
 
-            if (!std::get<n>(t).isImperial()) {
+            auto &s = std::get<n>(t);
 
-                if (imperialStarship.getShield() > 0 && std::get<n>(t).getShield() > 0) {
-                    attack(imperialStarship, std::get<n>(t));
+            if (!s.isImperial()) {
+
+                if (imperialStarship.getShield() > 0 && s.getShield() > 0) {
+                    attack(imperialStarship, s);
                     if (imperialStarship.getShield() == 0) {
                         std::cout << "Imperial killed\n";
                         imperialFleet--;
                     }
-                    if (std::get<n>(t).getShield() == 0) {
+                    if (s.getShield() == 0) {
                         std::cout << "Rebel killed\n";
                         rebelFleet--;
                     }
                 }
-
             }
-            iterateRebel<I, n + 1, S1...>(imperialStarship, t);
+            iterateRebel<n + 1>(imperialStarship, t);
         }
     }
 
@@ -117,10 +116,12 @@ private:
     constexpr void iterateImperial(std::tuple<S1...> &t) {
         if constexpr(n < sizeof...(S1)) {
 
-            if (std::get<n>(t).isImperial()) {
-                iterateRebel(std::get<n>(t), t);
+            auto &s = std::get<n>(t);
+
+            if (s.isImperial()) {
+                iterateRebel(s, t);
             }
-            iterateImperial<n + 1, S1...>(t);
+            iterateImperial<n + 1>(t);
         }
     }
 };

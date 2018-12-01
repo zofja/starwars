@@ -5,28 +5,32 @@
 #include <type_traits>
 #include <cassert>
 
-enum class RebelShip { EXPLORER, STARCRUISER, XWING };
+enum class RebelShip {
+    EXPLORER, STARCRUISER, XWING
+};
 
 template <typename U, RebelShip Type,
-        int Lo = 99999, int Hi = 299795,
-        int Lo1 = 299796, int Hi1 = 2997960>
+        int LO = 99999, int HI = 299795,
+        int LO1 = 299796, int HI1 = 2997960>
 class RebelStarship {
 public:
+
+    using typeValue = U;
 
     template <typename T = U>
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
     : shield(shield), speed(speed) {
-        assert(speed >= Lo1 && speed <= Hi1);
+        assert(speed >= LO1 && speed <= HI1);
         std::cout << "2 arg ctor\n";
     }
 
     template <typename T = U>
-    RebelStarship(typename std::enable_if<Type == RebelShip::STARCRUISER || Type == RebelShip::XWING, T>::type shield, T speed, T attackPower)
+    RebelStarship(typename std::enable_if<Type != RebelShip::EXPLORER, T>::type shield, T speed, T attackPower)
     : shield(shield), speed(speed), attackPower(attackPower) {
         if (Type == RebelShip::STARCRUISER)  {
-            assert(speed >= Lo && speed <= Hi);
+            assert(speed >= LO && speed <= HI);
         } else {
-            assert(speed >= Lo1 && speed <= Hi1);
+            assert(speed >= LO1 && speed <= HI1);
         }
         std::cout << "3 arg ctor\n";
     }
@@ -39,7 +43,7 @@ public:
         else shield = 0;
     }
 
-    template <typename = typename std::enable_if<(Type == RebelShip::STARCRUISER || Type == RebelShip::XWING)> >
+    template <typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
     U getAttackPower() {
         return attackPower;
     }
@@ -48,8 +52,9 @@ public:
 
 
 private:
+
     U shield;
-    const U speed;
+    U speed;
     U attackPower;
 };
 
