@@ -18,7 +18,6 @@ int main() {
                           fighter,
                           xwing);
 
-
     assert(battle.countRebelFleet() == 2);
     assert(battle.countImperialFleet() == 2);
 

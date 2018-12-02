@@ -48,7 +48,7 @@ Klasy `DeathStar`, `ImperialDestroyer` i `TIEFighter` mają publiczną składow�
 
 Dodatkowo trzeba stworzyć funkcję, która umożliwi statkowi Imperium zaatakowanie
 wybranego statku Rebelii:
-`void attackPower<I, R>(I imperialShip, R rebelShip)` – wykonuje atak na statek
+`void attack<I, R>(I imperialShip, R rebelShip)` – wykonuje atak na statek
 Rebelii, obniżając wytrzymałość jego tarczy. Należy też uwzględnić specjalny
 przypadek, gdy `R = StarCruiser<T>` lub `R = XWing<T>` – wtedy atak następuje w dwie strony – wytrzymałość tarczy jest obniżana zarówno statkowi Rebelii, jak
 i statkowi Imperium.
