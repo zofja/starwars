@@ -32,6 +32,7 @@ int main() {
 
     battle.tick(4);
     assert(battle.countRebelFleet() == 0);
+    std::cout << xwing.getShield() << "\n"; // powinno być 0
     assert(battle.countImperialFleet() == 1);
 
     battle.tick(1); // Wypisuje "IMPERIUM WON\n".

@@ -15,6 +15,7 @@ class SpaceBattle {
 
 public:
 
+//    TODO czy da się przekazywać przez referencję?
     explicit SpaceBattle(S... ship) : ships(ship...) {
         countFleet(ships);
     }
