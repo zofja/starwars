@@ -5,11 +5,7 @@
 #include <type_traits>
 #include "rebelfleet.h"
 
-enum class ImperialShip {
-    DEATHSTAR, IMPERIALDESTROYER, TIEFIGHTER
-};
-
-template<typename U, ImperialShip Type>
+template<typename U>
 class ImperialStarship {
 public:
 
@@ -56,12 +52,12 @@ void attack(I &imperialShip, R &rebelShip) {
 }
 
 template<typename U>
-using DeathStar = ImperialStarship<U, ImperialShip::DEATHSTAR>;
+using DeathStar = ImperialStarship<U>;
 
 template<typename U>
-using ImperialDestroyer = ImperialStarship<U, ImperialShip::IMPERIALDESTROYER>;
+using ImperialDestroyer = ImperialStarship<U>;
 
 template<typename U>
-using TIEFighter = ImperialStarship<U, ImperialShip::TIEFIGHTER>;
+using TIEFighter = ImperialStarship<U>;
 
 #endif

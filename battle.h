@@ -1,10 +1,10 @@
+#ifndef BATTLE_H
+#define BATTLE_H
+
 #include <tuple>
 #include <algorithm>
 #include "imperialfleet.h"
 #include "rebelfleet.h"
-
-#ifndef BATTLE_H
-#define BATTLE_H
 
 template<typename T, T t0, T t1, typename... S>
 class SpaceBattle {
@@ -28,11 +28,13 @@ public:
 
     void tick(T timeStep) {
 
+        static constexpr auto squares = genSquares();
+
         if (rebelFleet == 0 && imperialFleet == 0) std::cout << "DRAW\n";
         else if (rebelFleet == 0) std::cout << "IMPERIUM WON\n";
         else if (imperialFleet == 0) std::cout << "REBELLION WON\n";
         else {
-            if (std::binary_search(powers.begin(), powers.end(), time)) {
+            if (std::binary_search(squares.begin(), squares.end(), time)) {
                 iterateImperial(ships);
             }
         }
@@ -56,13 +58,13 @@ private:
         return i;
     }
 
-    static const auto N = getMaxN();
-
     static constexpr auto power(uint64_t n) {
         return n * n;
     }
 
-    static constexpr auto genPowers() {
+    static constexpr auto genSquares() {
+
+        const auto N = getMaxN();
 
         std::array<uint64_t, N> arr{};
 
@@ -72,9 +74,6 @@ private:
 
         return arr;
     }
-
-// TODO nwm co z tym warningiem o static storage duration
-    static constexpr auto powers = genPowers();
 
     template<size_t n = 0, typename ...S1>
     constexpr void countFleet(std::tuple<S1...> &t) {
