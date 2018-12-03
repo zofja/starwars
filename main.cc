@@ -18,6 +18,8 @@ int main() {
                           fighter,
                           xwing);
 
+    attack<DeathStar<long>, Explorer<int>>(deathStar, explorer);
+
     assert(battle.countRebelFleet() == 2);
     assert(battle.countImperialFleet() == 2);
 
@@ -31,7 +33,6 @@ int main() {
 
     battle.tick(4);
     assert(battle.countRebelFleet() == 0);
-    std::cout << xwing.getShield() << "\n"; // powinno być 0
     assert(battle.countImperialFleet() == 1);
 
     battle.tick(1); // Wypisuje "IMPERIUM WON\n".

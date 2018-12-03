@@ -21,7 +21,6 @@ public:
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
     : shield(shield), speed(speed) {
         assert(speed >= LO1 && speed <= HI1);
-        std::cout << "2 arg ctor\n";
     }
 
     template <typename T = U>
@@ -32,7 +31,6 @@ public:
         } else {
             assert(speed >= LO1 && speed <= HI1);
         }
-        std::cout << "3 arg ctor\n";
     }
 
     U getShield() { return shield; }
@@ -48,7 +46,7 @@ public:
         return attackPower;
     }
 
-    bool isImperial() { return false; }
+    constexpr bool isImperial() { return false; }
 
 
 private:

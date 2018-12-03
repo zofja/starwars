@@ -9,14 +9,12 @@
 template<typename T, T t0, T t1, typename... S>
 class SpaceBattle {
 
-    static_assert(t0 >= 0, "Time cannot be negative");
-    static_assert(t0 <= t1, "Start must be before end");
-    static_assert(t1 >= 0, "Time cannot be negative");
-
 public:
 
-//    TODO czy da się przekazywać przez referencję?
     explicit SpaceBattle(S... ship) : ships(ship...) {
+        static_assert(std::is_integral<T>::value, "Time must be of integral type");
+        static_assert(t0 >= 0, "Time cannot be negative");
+        static_assert(t0 <= t1, "Start must be before end");
         countFleet(ships);
     }
 
@@ -52,8 +50,13 @@ private:
 
     size_t imperialFleet = 0;
 
-//    TODO umądrzyć albo zostawić
-    static const uint64_t N = 20;
+    static constexpr auto getMaxN() {
+        auto i = 0;
+        for (; i * i < t1; i++) {}
+        return i;
+    }
+
+    static const auto N = getMaxN();
 
     static constexpr auto power(uint64_t n) {
         return n * n;
@@ -70,10 +73,8 @@ private:
         return arr;
     }
 
-
 // TODO nwm co z tym warningiem o static storage duration
     static constexpr auto powers = genPowers();
-
 
     template<size_t n = 0, typename ...S1>
     constexpr void countFleet(std::tuple<S1...> &t) {
@@ -91,7 +92,7 @@ private:
 
     template<size_t n = 0, typename I, typename...S1>
     constexpr void iterateRebel(I &imperialStarship, std::tuple<S1...> &t) {
-        if constexpr(n < sizeof...(S1)) {
+        if constexpr (n < sizeof...(S1)) {
 
             auto &s = std::get<n>(t);
 
@@ -100,11 +101,9 @@ private:
                 if (imperialStarship.getShield() > 0 && s.getShield() > 0) {
                     attack(imperialStarship, s);
                     if (imperialStarship.getShield() == 0) {
-                        std::cout << "Imperial killed\n";
                         imperialFleet--;
                     }
                     if (s.getShield() == 0) {
-                        std::cout << "Rebel killed\n";
                         rebelFleet--;
                     }
                 }
@@ -115,7 +114,7 @@ private:
 
     template<size_t n = 0, typename ...S1>
     constexpr void iterateImperial(std::tuple<S1...> &t) {
-        if constexpr(n < sizeof...(S1)) {
+        if constexpr (n < sizeof...(S1)) {
 
             auto &s = std::get<n>(t);
 

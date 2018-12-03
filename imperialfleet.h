@@ -3,21 +3,19 @@
 
 #include <iostream>
 #include <type_traits>
-#include <tgmath.h>
 #include "rebelfleet.h"
 
 enum class ImperialShip {
     DEATHSTAR, IMPERIALDESTROYER, TIEFIGHTER
 };
 
-template <typename U, ImperialShip Type>
+template<typename U, ImperialShip Type>
 class ImperialStarship {
 public:
 
     using typeValue = U;
 
     ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {
-        std::cout << "2 arg ctor\n";
     }
 
     U getShield() { return shield; }
@@ -29,7 +27,7 @@ public:
 
     U getAttackPower() { return attackPower; }
 
-    bool isImperial() { return true; }
+    constexpr bool isImperial() { return true; }
 
 
 private:
@@ -38,25 +36,32 @@ private:
     U attackPower;
 };
 
-// TODO czy dobrze
-template <typename I, typename U>
-void attack(I &imperialShip, Explorer<U> &rebelShip) {
+template<typename I, typename R, typename U>
+typename std::enable_if<(std::is_same<R, Explorer<U>>::value)>::type attack(I &imperialShip, Explorer<U> &rebelShip) {
+//    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
 
-template <typename I, typename R>
+template<typename I, typename U>
+void attack(I &imperialShip, Explorer<U> &rebelShip) {
+//    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
+    rebelShip.takeDamage(imperialShip.getAttackPower());
+}
+
+template<typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
+//    static_assert(imperialShip.isImperial() && !rebelShip.isImperial(), "Imperial must be imperial or rebel must be rebel");
     rebelShip.takeDamage(imperialShip.getAttackPower());
     imperialShip.takeDamage(rebelShip.getAttackPower());
 }
 
-template <typename U>
+template<typename U>
 using DeathStar = ImperialStarship<U, ImperialShip::DEATHSTAR>;
 
-template <typename U>
+template<typename U>
 using ImperialDestroyer = ImperialStarship<U, ImperialShip::IMPERIALDESTROYER>;
 
-template <typename U>
+template<typename U>
 using TIEFighter = ImperialStarship<U, ImperialShip::TIEFIGHTER>;
 
 #endif
