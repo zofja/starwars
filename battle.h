@@ -79,7 +79,7 @@ private:
     constexpr void countFleet(std::tuple<S1...> &t) {
         if constexpr(n < sizeof...(S1)) {
 
-            if (std::get<n>(t).isImperial()) {
+            if constexpr (std::tuple_element_t<n, std::tuple<S1...>>::isImperial()) {
                 imperialFleet++;
             } else {
                 rebelFleet++;
@@ -95,7 +95,7 @@ private:
 
             auto &s = std::get<n>(t);
 
-            if (!s.isImperial()) {
+            if constexpr (!std::tuple_element_t<n, std::tuple<S1...>>::isImperial()) {
 
                 if (imperialStarship.getShield() > 0 && s.getShield() > 0) {
                     attack(imperialStarship, s);
@@ -117,7 +117,7 @@ private:
 
             auto &s = std::get<n>(t);
 
-            if (s.isImperial()) {
+            if constexpr (std::tuple_element_t<n, std::tuple<S1...>>::isImperial()) {
                 iterateRebel(s, t);
             }
             iterateImperial<n + 1>(t);

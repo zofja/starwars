@@ -23,7 +23,7 @@ public:
 
     U getAttackPower() { return attackPower; }
 
-    constexpr bool isImperial() { return true; }
+    static constexpr bool isImperial() { return true; }
 
 
 private:
@@ -32,21 +32,22 @@ private:
     U attackPower;
 };
 
-template<typename I, typename R, typename U>
-typename std::enable_if<(std::is_same<R, Explorer<U>>::value)>::type attack(I &imperialShip, Explorer<U> &rebelShip) {
-//    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
+template<typename I, typename R>
+void attack(typename std::enable_if<(std::is_same<R, Explorer<typename R::typeValue>>::value), I>::type &imperialShip, R &rebelShip) {
+    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
 
 template<typename I, typename U>
 void attack(I &imperialShip, Explorer<U> &rebelShip) {
-//    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
+    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
 
 template<typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
-//    static_assert(imperialShip.isImperial() && !rebelShip.isImperial(), "Imperial must be imperial or rebel must be rebel");
+    static_assert(imperialShip.isImperial() && !rebelShip.isImperial(),
+                  "Imperial ship must be imperial or rebel ship must be rebel");
     rebelShip.takeDamage(imperialShip.getAttackPower());
     imperialShip.takeDamage(rebelShip.getAttackPower());
 }

@@ -9,7 +9,7 @@ enum class RebelShip {
     EXPLORER, STARCRUISER, XWING
 };
 
-template <typename U, RebelShip Type,
+template<typename U, RebelShip Type,
         int LO = 99999, int HI = 299795,
         int LO1 = 299796, int HI1 = 2997960>
 class RebelStarship {
@@ -17,16 +17,16 @@ public:
 
     using typeValue = U;
 
-    template <typename T = U>
+    template<typename T = U>
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
-    : shield(shield), speed(speed) {
+            : shield(shield), speed(speed) {
         assert(speed >= LO1 && speed <= HI1);
     }
 
-    template <typename T = U>
+    template<typename T = U>
     RebelStarship(typename std::enable_if<Type != RebelShip::EXPLORER, T>::type shield, T speed, T attackPower)
-    : shield(shield), speed(speed), attackPower(attackPower) {
-        if (Type == RebelShip::STARCRUISER)  {
+            : shield(shield), speed(speed), attackPower(attackPower) {
+        if (Type == RebelShip::STARCRUISER) {
             assert(speed >= LO && speed <= HI);
         } else {
             assert(speed >= LO1 && speed <= HI1);
@@ -34,6 +34,7 @@ public:
     }
 
     U getShield() { return shield; }
+
     U getSpeed() { return speed; }
 
     void takeDamage(U damage) {
@@ -41,12 +42,12 @@ public:
         else shield = 0;
     }
 
-    template <typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
+    template<typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
     U getAttackPower() {
         return attackPower;
     }
 
-    constexpr bool isImperial() { return false; }
+    static constexpr bool isImperial() { return false; }
 
 
 private:
@@ -56,13 +57,13 @@ private:
     U attackPower;
 };
 
-template <typename U>
+template<typename U>
 using Explorer = RebelStarship<U, RebelShip::EXPLORER>;
 
-template <typename U>
+template<typename U>
 using StarCruiser = RebelStarship<U, RebelShip::STARCRUISER>;
 
-template <typename U>
+template<typename U>
 using XWing = RebelStarship<U, RebelShip::XWING>;
 
 #endif
