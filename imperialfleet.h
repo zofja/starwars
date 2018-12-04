@@ -9,7 +9,7 @@ template<typename U>
 class ImperialStarship {
 public:
 
-    using typeValue = U;
+    using valueType = U;
 
     ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {
     }
@@ -36,7 +36,7 @@ private:
 };
 
 template<typename I, typename R>
-void attack(typename std::enable_if<(std::is_same<R, Explorer<typename R::typeValue>>::value), I>::type &imperialShip,
+void attack(typename std::enable_if<(std::is_same<R, Explorer<typename R::valueType>>::value), I>::type &imperialShip,
             R &rebelShip) {
 
     static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");

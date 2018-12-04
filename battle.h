@@ -6,21 +6,20 @@
 #include "imperialfleet.h"
 #include "rebelfleet.h"
 
-/*
- * Class managing space battle on ships
- * @param T – type of given time parameters
- * @param t0 – start time
- * @param t1 – end time
- * @param S... parameter pack representing ships
+/** Variadic class template managing space battles
+ * @tparam T – type of time parameters @param t0 and @param t1
+ * @tparam t0 – start time
+ * @tparam t1 – end time
+ * @tparam S – parameter pack representing starships
  */
 template<typename T, T t0, T t1, typename... S>
 class SpaceBattle {
 
 public:
 
-    /*
-     * Constructor unpacking parameter pack @p Ships into private std::tuple<S...> @param ships
-     * Calls countFleet to count Imperial starships and Rebel starhips
+    /** Constructor
+     * Unpacks parameter pack @param Ships into private @param ships
+     * Counts starships with countFleet function
      */
     explicit SpaceBattle(S... Ships) : ships(Ships...) {
 
@@ -30,16 +29,20 @@ public:
         countFleet(ships);
     }
 
-    /*
-     * GETTERS
+    /**
+     * @return @param imperialFleet
      */
     size_t countImperialFleet() { return imperialFleet; }
 
+    /**
+     * @return @param imperialFleet
+     */
     size_t countRebelFleet() { return rebelFleet; }
 
-    /*
-     * Starts battle in at a time @time
-     * Changes @time by @timeStep
+    /**
+     * Checks @param time
+     * If @param time is time of the attack then calls iterateImperial function
+     * Increases @param time by @param timeStep
      */
     void tick(T timeStep) {
 
@@ -70,20 +73,20 @@ private:
 
     size_t imperialFleet = 0;
 
-    /*
-     * Counts maximum size of the array of squares
-     * in compile time
+    /**
+     * Determines maximum size of the array @param squares at compile-time
+     * @return @param i
      */
     static constexpr auto getMaxN() {
 
         auto i = 0;
-        while (i * i < t1) i++;
+        while (i * i <= t1) i++;
         return i;
     }
 
-    /*
-     * Generates the array of squares
-     * in compile time
+    /**
+     * Generates static array of squares of integers at compile-time
+     * @return @param squares
      */
     static constexpr auto genSquares() {
 
@@ -98,8 +101,11 @@ private:
         return squares;
     }
 
-    /*
-     * Counts the number of ships of type ImperialStarhip and RebelStarship
+    /** Variadic function template
+     * Iterates over @param t and counts ships of type ImperialStarhip and RebelStarship
+     * @tparam n – index of current element in tuple
+     * @tparam S1 – parameter pack representing starships' types
+     * @param t – tuple of starships
      */
     template<size_t n = 0, typename ...S1>
     constexpr void countFleet(std::tuple<S1...> &t) {
@@ -107,17 +113,26 @@ private:
         if constexpr(n < sizeof...(S1)) {
 
             if constexpr (std::tuple_element_t<n, std::tuple<S1...>>::isImperial()) {
-                imperialFleet++;
+                if (std::get<n>(t).getShield() > 0) {
+                    imperialFleet++;
+                }
             } else {
-                rebelFleet++;
+                if (std::get<n>(t).getShield() > 0) {
+                    rebelFleet++;
+                }
             }
 
             countFleet<n + 1>(t);
         }
     }
 
-    /*
-     * Iterates over Rebel starships and attack if the ships is RebelStarship
+    /** Variadic function template
+     * Iterates over tuple @param t and attacks starships of type RebelStarship
+     * @tparam n – index of current element in tuple
+     * @tparam I – type of @param imperialStarship
+     * @tparam S1 – parameter pack representing starships
+     * @param imperialStarship – starship of type ImperialStarship which attack RebelStarships
+     * @param t – tuple of starships
      */
     template<size_t n = 0, typename I, typename...S1>
     constexpr void iterateRebel(I &imperialStarship, std::tuple<S1...> &t) {
@@ -145,9 +160,11 @@ private:
         }
     }
 
-    /*
-     * Iterates over Imperial starships
-     * Calls iterateRebel when the ship is Imperial
+    /** Variadic function template
+     * Iterates over tuple @param t and commences attack if the starship is of type ImperialStarship
+     * @tparam n – index of current element in tuple
+     * @tparam S1 – parameter pack representing starships' types
+     * @param t – tuple of starships
      */
     template<size_t n = 0, typename ...S1>
     constexpr void iterateImperial(std::tuple<S1...> &t) {

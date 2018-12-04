@@ -5,9 +5,11 @@
 #include <type_traits>
 #include <cassert>
 
-enum class RebelShip {
-    EXPLORER, STARCRUISER, XWING
-};
+namespace {
+    enum class RebelShip {
+        EXPLORER, STARCRUISER, XWING
+    };
+}
 
 template<typename U, RebelShip Type,
         int LO = 99999, int HI = 299795,
@@ -15,7 +17,7 @@ template<typename U, RebelShip Type,
 class RebelStarship {
 public:
 
-    using typeValue = U;
+    using valueType = U;
 
     template<typename T = U>
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
