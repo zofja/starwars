@@ -15,6 +15,10 @@
 template<typename T, T t0, T t1, typename... S>
 class SpaceBattle {
 
+    static_assert(std::is_integral<T>::value, "Time must be of integral type");
+    static_assert(t0 >= 0, "Time cannot be negative");
+    static_assert(t0 <= t1, "Start must be before end");
+
 public:
 
     /** Constructor
@@ -23,20 +27,14 @@ public:
      */
     explicit SpaceBattle(S... Ships) : ships(Ships...) {
 
-        static_assert(std::is_integral<T>::value, "Time must be of integral type");
-        static_assert(t0 >= 0, "Time cannot be negative");
-        static_assert(t0 <= t1, "Start must be before end");
         countFleet(ships);
     }
 
-    /**
-     * @return @param imperialFleet
+    /*
+     * GETTERS
      */
     size_t countImperialFleet() { return imperialFleet; }
 
-    /**
-     * @return @param imperialFleet
-     */
     size_t countRebelFleet() { return rebelFleet; }
 
     /**

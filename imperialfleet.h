@@ -5,19 +5,32 @@
 #include <type_traits>
 #include "rebelfleet.h"
 
+/** Class template representing imperial starships
+ * @tparam U – type of @param shield and @param attackPower
+ */
 template<typename U>
 class ImperialStarship {
 public:
 
     using valueType = U;
 
+    /**
+     * Constructor
+     */
     ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {
     }
 
+    /**
+     * GETTERS
+     */
     U getShield() { return shield; }
 
     U getAttackPower() { return attackPower; }
 
+    /**
+     * Decreases shield by @param damage if possible,
+     * otherwise sets to 0
+     */
     void takeDamage(U damage) {
 
         if (shield >= damage) {
@@ -27,6 +40,11 @@ public:
         }
     }
 
+    /**
+     * Determines that the ship is not of type ImperialStarship
+     * at compile-time
+     * @return true;
+     */
     static constexpr bool isImperial() { return true; }
 
 private:
@@ -35,33 +53,51 @@ private:
     U attackPower;
 };
 
+/**
+ * Specialization of attack function for @param rebelShip of type Explorer
+ * @tparam I – type of @param imperialShip
+ * @tparam R – type of @param rebelShip
+ */
 template<typename I, typename R>
 void attack(typename std::enable_if<(std::is_same<R, Explorer<typename R::valueType>>::value), I>::type &imperialShip,
             R &rebelShip) {
 
-    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
+    static_assert(I::isImperial(), "Imperial ship must be imperial");
 
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
 
+/**
+ * Specialization of attack function for @param rebelShip of type Explorer
+ * @tparam I – type of @param imperialShip
+ * @tparam R – type of @param rebelShip
+ */
 template<typename I, typename U>
 void attack(I &imperialShip, Explorer<U> &rebelShip) {
 
-    static_assert(imperialShip.isImperial(), "Imperial ship must be imperial");
+    static_assert(I::isImperial(), "Imperial ship must be imperial");
 
     rebelShip.takeDamage(imperialShip.getAttackPower());
 }
 
+/**
+ * Attack function for @param rebelShip of type different than Explorer
+ * @tparam I – type of @param imperialShip
+ * @tparam R – type of @param rebelShip
+ */
 template<typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
 
-    static_assert(imperialShip.isImperial() && !rebelShip.isImperial(),
+    static_assert(I::isImperial() && !R::isImperial(),
                   "Imperial ship must be imperial or rebel ship must be rebel");
 
     rebelShip.takeDamage(imperialShip.getAttackPower());
     imperialShip.takeDamage(rebelShip.getAttackPower());
 }
 
+/**
+ * Specializations of class template ImperialStarship
+ */
 template<typename U>
 using DeathStar = ImperialStarship<U>;
 

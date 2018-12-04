@@ -11,6 +11,14 @@ namespace {
     };
 }
 
+/** Class template representing rebel starships
+ * @tparam U – type of @param shield, @param speed and @param attackPower
+ * @tparam Type – starship type
+ * @tparam LO – lowest speed of StarCruiser
+ * @tparam HI – highest speed of StarCruiser
+ * @tparam LO1 – lowest speed of XWing and Explorer
+ * @tparam HI1 – highest speed ofXWing and Explorer
+ */
 template<typename U, RebelShip Type,
         int LO = 99999, int HI = 299795,
         int LO1 = 299796, int HI1 = 2997960>
@@ -19,17 +27,24 @@ public:
 
     using valueType = U;
 
-    template<typename T = U>
-    RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
+    /**
+     * Constructor for Explorer<T>
+     * @tparam T – type of @param shield and @param speed
+     */
+    template<typename = typename std::enable_if<(Type == RebelShip::EXPLORER)>>
+    RebelStarship(U shield, U speed)
             : shield(shield), speed(speed) {
-
         assert(speed >= LO1 && speed <= HI1);
     }
 
-    template<typename T = U>
-    RebelStarship(typename std::enable_if<Type != RebelShip::EXPLORER, T>::type shield, T speed, T attackPower)
-            : shield(shield), speed(speed), attackPower(attackPower) {
+    /**
+     * Constructor for XWing<T> and StarCruiser<T>
+     * @tparam U – type of @param shield, @param speed and @param attackPower
+     */
 
+    template<typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
+    RebelStarship(U shield, U speed, U attackPower)
+            : shield(shield), speed(speed), attackPower(attackPower) {
         if (Type == RebelShip::STARCRUISER) {
             assert(speed >= LO && speed <= HI);
         } else {
@@ -37,22 +52,32 @@ public:
         }
     }
 
+    /*
+     * GETTERS
+     */
     U getShield() { return shield; }
 
     U getSpeed() { return speed; }
 
     template<typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
-    U getAttackPower() { return attackPower; }
-
-    void takeDamage(U damage) {
-
-        if (shield >= damage) {
-            shield -= damage;
-        } else {
-            shield = 0;
-        }
+    U getAttackPower() {
+        return attackPower;
     }
 
+    /**
+     * Decreases shield by @param damage if possible,
+     * otherwise sets to 0
+     */
+    void takeDamage(U damage) {
+        if (shield >= damage) shield -= damage;
+        else shield = 0;
+    }
+
+     /**
+      * Determines that the ship is not of type ImperialStarship
+      * at compile-time
+      * @return false;
+      */
     static constexpr bool isImperial() { return false; }
 
 private:
@@ -62,6 +87,9 @@ private:
     U attackPower;
 };
 
+/**
+ * Specializations of class template RebelStarship
+ */
 template<typename U>
 using Explorer = RebelStarship<U, RebelShip::EXPLORER>;
 
