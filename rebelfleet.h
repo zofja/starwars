@@ -20,12 +20,14 @@ public:
     template<typename T = U>
     RebelStarship(typename std::enable_if<Type == RebelShip::EXPLORER, T>::type shield, T speed)
             : shield(shield), speed(speed) {
+
         assert(speed >= LO1 && speed <= HI1);
     }
 
     template<typename T = U>
     RebelStarship(typename std::enable_if<Type != RebelShip::EXPLORER, T>::type shield, T speed, T attackPower)
             : shield(shield), speed(speed), attackPower(attackPower) {
+
         if (Type == RebelShip::STARCRUISER) {
             assert(speed >= LO && speed <= HI);
         } else {
@@ -37,18 +39,19 @@ public:
 
     U getSpeed() { return speed; }
 
-    void takeDamage(U damage) {
-        if (shield >= damage) shield -= damage;
-        else shield = 0;
-    }
-
     template<typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
-    U getAttackPower() {
-        return attackPower;
+    U getAttackPower() { return attackPower; }
+
+    void takeDamage(U damage) {
+
+        if (shield >= damage) {
+            shield -= damage;
+        } else {
+            shield = 0;
+        }
     }
 
     static constexpr bool isImperial() { return false; }
-
 
 private:
 
