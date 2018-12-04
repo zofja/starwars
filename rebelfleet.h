@@ -28,8 +28,7 @@ public:
     using valueType = U;
 
     /**
-     * Constructor for Explorer<T>
-     * @tparam T – type of @param shield and @param speed
+     * Constructor for Explorer<U>
      */
     template<typename = typename std::enable_if<(Type == RebelShip::EXPLORER)>>
     RebelStarship(U shield, U speed)
@@ -38,10 +37,8 @@ public:
     }
 
     /**
-     * Constructor for XWing<T> and StarCruiser<T>
-     * @tparam U – type of @param shield, @param speed and @param attackPower
+     * Constructor for XWing<U> and StarCruiser<U>
      */
-
     template<typename = typename std::enable_if<(Type != RebelShip::EXPLORER)>>
     RebelStarship(U shield, U speed, U attackPower)
             : shield(shield), speed(speed), attackPower(attackPower) {

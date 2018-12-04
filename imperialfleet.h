@@ -58,22 +58,8 @@ private:
  * @tparam I – type of @param imperialShip
  * @tparam R – type of @param rebelShip
  */
-template<typename I, typename R>
-void attack(typename std::enable_if<(std::is_same<R, Explorer<typename R::valueType>>::value), I>::type &imperialShip,
-            R &rebelShip) {
-
-    static_assert(I::isImperial(), "Imperial ship must be imperial");
-
-    rebelShip.takeDamage(imperialShip.getAttackPower());
-}
-
-/**
- * Specialization of attack function for @param rebelShip of type Explorer
- * @tparam I – type of @param imperialShip
- * @tparam R – type of @param rebelShip
- */
-template<typename I, typename U>
-void attack(I &imperialShip, Explorer<U> &rebelShip) {
+template<typename I, typename R, typename = typename std::enable_if<(std::is_same<R, Explorer<typename R::valueType>>::value)>>
+void attack(I &imperialShip, Explorer<typename R::valueType> &rebelShip) {
 
     static_assert(I::isImperial(), "Imperial ship must be imperial");
 
@@ -85,7 +71,8 @@ void attack(I &imperialShip, Explorer<U> &rebelShip) {
  * @tparam I – type of @param imperialShip
  * @tparam R – type of @param rebelShip
  */
-template<typename I, typename R>
+
+template<typename I, typename R, typename = typename std::enable_if<(!std::is_same<R, Explorer<typename R::valueType>>::value)>>
 void attack(I &imperialShip, R &rebelShip) {
 
     static_assert(I::isImperial() && !R::isImperial(),
