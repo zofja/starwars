@@ -106,29 +106,3 @@ Wywołanie `tick()` na bitwie, podczas gdy wszystkie statki Rebelii zostały
 zniszczone, powoduje wypisanie na standardowe wyjście napisu ``"IMPERIUM WON\n"``.
 Jeśli wszystkie statki zarówno Imperium jak i Rebelii są zniszczone, to zostaje
 wypisany napis ``"DRAW\n"``.
-
-# Wymagania formalne
-
-W tym zadaniu wymagane jest użycie kompilatora Clang, który wypisuje bardzo
-szczegółowe komunikaty o błędach w przypadku korzystania z szablonów
-i metaprogramowania. Rozwiązanie będzie kompilowane za pomocą polecenia
-
-`clang -Wall -Wextra -std=c++17 -O2 -lstdc++`
-
-Przykład użycia znajduje się w pliku `starwars_example.cc`.
-
-Rozwiązanie powinno zawierać pliki `rebelfleet.h`, `imperialfleet.h`, `battle.h`.
-Pliki te należy umieścić w repozytorium w katalogu
-
-`grupaN/zadanie4/ab123456+cd123456`
-
-lub
-
-`grupaN/zadanie4/ab123456+cd123456+ef123456`
-
-gdzie N jest numerem grupy, a ab123456, cd123456, ef123456 są identyfikatorami
-członków zespołu umieszczającego to rozwiązanie. Katalog z rozwiązaniem nie
-powinien zawierać innych plików, ale może zawierać podkatalog prywatne, gdzie
-można umieszczać różne pliki, np. swoje testy. Pliki umieszczone w tym
-podkatalogu nie będą oceniane. Nie wolno umieszczać w repozytorium plików
-dużych, binarnych, tymczasowych (np. *.o) ani innych zbędnych.
