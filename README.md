@@ -1,10 +1,3 @@
-# starwars
-Celem zadania jest stworzenie programu symulującego bitwy gwiezdne. Bitwa
-rozgrywa się w przestrzeni międzygwiezdnej pomiędzy siłami Rebelii a Imperium.
-Ponieważ chcemy symulować różne bitwy, należy przygotować rozwiązanie ogólne.
-
-Stwórz następujące typy szablonowe.
-
 ## rebelfleet.h
 
 Klasy `Explorer<typename U>`, `StarCruiser<typename U>` i `XWing<typename U>`
@@ -63,7 +56,6 @@ Klasa `SpaceBattle<typename T, t0, T t1, typename... S>`, gdzie:
 - `t0` – czas startowy,
 - `t1` – czas końcowy, po którego przekroczeniu następuje wyzerowanie licznika,
 - `S...` – typy statków.
-Należy sprawdzać poprawność parametrów `t0` i `t1` w czasie kompilacji.
 
 Klasa `SpaceBattle` przyjmuje w konstruktorze kolejno obiekty reprezentujące
 statki biorące udział w bitwie.
@@ -79,9 +71,7 @@ przesuwa się o timeStep.
 w sekundach, od sekundy `0` do sekundy `t1` i potem znów od sekundy `0`, i tak
 cyklicznie. Pierwsze odliczanie zaczyna się od sekundy `t0`. Ze względu na
 zakłócenia magnetyczne statki mogą atakować tylko w sekundach będących
-kwadratami liczb całkowitych. Obliczenie wszystkich potrzebnych liczb
-reprezentujących sekundy ataku i ich zapamiętanie w odpowiedniej kolekcji musi
-odbyć się w czasie kompilacji.
+kwadratami liczb całkowitych.
 
 Ataki podczas bitwy odbywają się sekwencyjnie. W sekundzie ataku każdy
 niezniszczony statek imperialny po kolei atakuje wszystkie niezniszczone statki
